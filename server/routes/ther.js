@@ -3,17 +3,28 @@
 const express = require('express');
 const router = express.Router();
 
-// استيراد الدوال من ملف الكنترولر
-// لاحظ كيف قمنا بتحديث السطر التالي ليشمل الدالة الجديدة
-const { getTherapists, createTherapist } = require('../controllers/ther.js');
+// استيراد جميع الدوال من ملف الكنترولر
+const {
+    getTherapists,
+    createTherapist,
+    getTherapistById,
+    updateTherapist,
+    deleteTherapist // <--- استيراد الدالة الجديدة
+} = require('../controllers/ther.js');
 
-// تعريف المسارات
-
-// GET /api/ther/  (موجود لديك بالفعل)
+// GET all therapists
 router.get('/', getTherapists);
 
-// POST /api/ther/ (هذا هو المسار الجديد)
-router.post('/', createTherapist); // <--- أضف هذا السطر
+// POST a new therapist
+router.post('/', createTherapist);
 
-// تصدير الراوتر
+// GET a single therapist by ID
+router.get('/:id', getTherapistById);
+
+// PUT (update) a therapist by ID
+router.put('/:id', updateTherapist);
+
+// DELETE a therapist by ID (هذا هو المسار الجديد)
+router.delete('/:id', deleteTherapist);
+
 module.exports = router;
