@@ -1,35 +1,47 @@
-
 // index.js
 
 // --- Imports ---
 const express = require('express');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const cookieParser = require('cookie-parser'); // <-- 1. استيراد المكتبة الجديدة
 
-// استيراد مسارات المصادقة
+// استيراد ملفات المسارات
 const authRoutes = require('./routes/auth');
-// استيراد مسارات المعالجين
-const therRoutes = require('./routes/ther'); // <--- هذا السطر الجديد
+const therRoutes = require('./routes/ther');
+
+// --- Load Env Vars ---
+dotenv.config();
 
 // --- App Initialization ---
 const app = express();
 
 // --- Middleware ---
-// هذا السطر ضروري جدًا ليتمكن Express من فهم بيانات JSON القادمة في جسم الطلب (req.body)
 app.use(express.json());
+app.use(cookieParser()); // <-- 2. استخدام المكتبة الجديدة
+
+// --- Database Connection ---
+const connectDB = async () => {
+    try {
+        await mongoose.connect(process.env.MONGO_URI);
+        console.log('MongoDB Connected...');
+    } catch (err) {
+        console.error(err.message);
+        process.exit(1);
+    }
+};
+connectDB();
 
 // --- Routes ---
-// نقطة نهاية أساسية للترحيب للتأكد من أن الخادم يعمل
 app.get('/', (req, res) => {
-  res.send('<h1>الخادم يعمل بنجاح!</h1>');
+    res.send('<h1>Server is running!</h1>');
 });
 
-// أي طلب يبدأ بـ /api/auth سيتم توجيهه إلى ملف authRoutes
 app.use('/api/auth', authRoutes);
-
-// أي طلب يبدأ بـ /api/ther سيتم توجيهه إلى ملف therRoutes
-app.use('/api/ther', therRoutes); // <--- وهذا السطر الجديد
+app.use('/api/ther', therRoutes);
 
 // --- Server Activation ---
-const PORT = 5000; // تأكد من أن البورت 5000 وليس 3000 كما ذكرت سابقاً
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log('Server is running on http://localhost:${PORT}');
+    console.log('Server is running on http://localhost:${PORT}');
 });

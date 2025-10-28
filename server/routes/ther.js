@@ -1,30 +1,30 @@
-// routes/ther.js
+// server/routes/ther.js
 
 const express = require('express');
 const router = express.Router();
 
-// استيراد جميع الدوال من ملف الكنترولر
 const {
     getTherapists,
     createTherapist,
     getTherapistById,
     updateTherapist,
-    deleteTherapist // <--- استيراد الدالة الجديدة
-} = require('../controllers/ther.js');
+    deleteTherapist
+} = require('../controllers/ther.js'); // تأكد من المسار الصحيح
 
-// GET all therapists
+// استيراد وسطاء الحماية والصلاحيات
+const { protect } = require('../middleware/authMiddleware.js'); // تأكد من المسار الصحيح
+const { authorize } = require('../middleware/authorize.js'); // <-- 1. استيراد الوسيط الجديد
+
+// --- تعريف المسارات ---
+
+// مسارات عامة (لأي زائر)
 router.get('/', getTherapists);
-
-// POST a new therapist
-router.post('/', createTherapist);
-
-// GET a single therapist by ID
 router.get('/:id', getTherapistById);
 
-// PUT (update) a therapist by ID
-router.put('/:id', updateTherapist);
-
-// DELETE a therapist by ID (هذا هو المسار الجديد)
-router.delete('/:id', deleteTherapist);
+// مسارات محمية للأدمن فقط
+// الآن، يجب أن يكون المستخدم مسجلاً دخوله (protect) وأن يكون أدمن (authorize)
+router.post('/', protect, authorize('admin'), createTherapist);
+router.put('/:id', protect, authorize('admin'), updateTherapist);
+router.delete('/:id', protect, authorize('admin'), deleteTherapist);
 
 module.exports = router;
