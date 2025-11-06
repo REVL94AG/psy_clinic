@@ -1,15 +1,15 @@
-// src/index.js
+// client/src/index.js
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import { AuthProvider } from './context/AuthContext'; // <-- استيراد المزوّد
+import './base.css';
+import App from './app';
+import { AuthProvider } from './context/auth';
+import './theme.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    {/* تغليف التطبيق بالكامل بـ AuthProvider */}
     <AuthProvider>
       <App />
     </AuthProvider>

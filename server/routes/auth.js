@@ -4,10 +4,10 @@ const express = require('express');
 const router = express.Router();
 
 // 1. استيراد الدوال بالأسماء الصحيحة من المتحكم
-const { register, login, getMe } = require('../controllers/authController.js');
+const { register, login, getMe } = require('../controllers/auth.js');
 
 // 2. استيراد الوسيط للحماية
-const { protect } = require('../middleware/authMiddleware.js');
+const { protect } = require('../middleware/guard.js');
 
 // المسارات العامة
 router.post('/register', register);

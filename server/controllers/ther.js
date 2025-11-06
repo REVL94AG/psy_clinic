@@ -1,7 +1,8 @@
 // controllers/ther.js
 
 // --- 1. استيراد النموذج ---
-const Therapist = require('../models/Therapist.js');
+// استخدم الاسم المختصر "ther.js" بدلاً من الملف الطويل
+const Therapist = require('../models/ther.js');
 
 // --- 2. جلب جميع المعالجين من قاعدة البيانات ---
 const getTherapists = async (req, res) => {

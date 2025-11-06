@@ -12,8 +12,8 @@ const {
 } = require('../controllers/ther.js'); // تأكد من المسار الصحيح
 
 // استيراد وسطاء الحماية والصلاحيات
-const { protect } = require('../middleware/authMiddleware.js'); // تأكد من المسار الصحيح
-const { authorize } = require('../middleware/authorize.js'); // <-- 1. استيراد الوسيط الجديد
+const { protect } = require('../middleware/guard.js'); // تأكد من المسار الصحيح
+const { authorize } = require('../middleware/perm.js'); // <-- 1. استيراد الوسيط الجديد
 
 // --- تعريف المسارات ---
 
